@@ -2,52 +2,77 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ApiResource()
+ * @UniqueEntity("email", message="Cette email existe déjà !")
  */
 class User implements UserInterface
 {
     /**
+     * 
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     * @Assert\NotBlank(message="l'email doit être renseignée")
+     * @Assert\Email(message="l'email doit être renseignée")
+     * 
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"invoices_read", "customers_read" ,"invoices_subresource"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     * @Assert\NotBlank(message="le mdp est obligatoire")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     * @Assert\NotBlank(message="le mdp est obligatoire")
+     * @Assert\Length(min=3 ,minMessage="votre pseudo doit comporter plus de caractere -min 3")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     * @Assert\NotBlank(message="le mdp est obligatoire")
+     * @Assert\Length(min=3 ,minMessage="votre pseudo doit comporter plus de caractere -min 3")
      */
     private $lastName;
 
     /**
+     * 
      * @ORM\OneToMany(targetEntity=Customer::class, mappedBy="user")
+     * 
      */
     private $customers;
 

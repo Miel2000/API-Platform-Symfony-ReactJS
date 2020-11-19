@@ -1,0 +1,48 @@
+ // Nota béné 
+
+Important 
+        - collectionOperations -> Pour s'addresser en GET ou POST a la collection /customers (ma liste de clients)
+        - itemOperations -> Pour s'addresser en PUT,PATCH,GET,DELETE à UN SEUL item /customers/{id}.
+
+
+
+ 
+                ___ On peut redéfinir les opérations possible. par défault, elles sont toutes activées.
+
+        * @ApiResource(
+        *  normalizationContext={
+        *      "groups"={"customers_read"}
+        *  },
+        *  collectionOperations={"GET","POST"},
+        *  itemOperations={"PUT","DELETE","GET", "PATCH"}
+        * )
+
+
+                __ On peut redéfinir les routes également grâce à :
+
+        @ApiResource(
+        *  normalizationContext={
+        *      "groups"={"customers_read"}
+        *  },
+        * collectionOperations={
+        *      "get"={"path"="/clients"}, "POST"
+        * },
+        * 
+        * itemOperations={
+        *      "PUT"={"path"="/clients/{id}", "PUT"},
+        *      "PATCH"={"path"="/clients/{id}", "PATCH"},
+        *      "DELETE"={"path"="/clients/{id}", "DELETE"},
+        *      "GET"={"path"="/clients/{id}", "GET"},
+        *  }
+        * )
+
+
+                __ On peut définir des sous-ressources et redéfinir leur routes également avec  :
+
+        subresourceOperations={
+        * 
+        *      "invoices_get_subresource"={
+        *              "method"="GET",
+        *              "path"="/mesclients/{id}/invoices"
+        *      }
+        *  }

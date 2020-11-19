@@ -24,6 +24,8 @@ class AppFixtures extends Fixture
     {
         $this->encoder = $encoder;
     }
+
+
     public function load(ObjectManager $manager)
     {
 
@@ -38,13 +40,13 @@ class AppFixtures extends Fixture
             $encoded = $this->encoder->encodePassword($user, "password");
 
             $user->setFirstName($faker->firstName())
-                 ->setLastName($faker->lastName())
-                 ->setEmail($faker->email())
+                 ->setLastName($faker->lastName)
+                 ->setEmail($faker->email)
                  ->setPassword($encoded);
 
                  $manager->persist($user);
 
-            for ($c = 0; $c < 10; $c++) {
+            for ($c = 0; $c < mt_rand(5,20); $c++) {
                 $chrono = 1;
                 $customer = new Customer();
                 $customer->setFirstName($faker->firstName())
@@ -68,15 +70,10 @@ class AppFixtures extends Fixture
 
                     $manager->persist($invoice);
                 }
-
-                $manager->flush();
             }
         }
 
-      
-        // $product = new Product();
-        // $manager->persist($product);
-
+    
         $manager->flush();
     }
 }
