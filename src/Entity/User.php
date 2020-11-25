@@ -16,7 +16,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *   normalizationContext={"groups"={"users_read"}},
+ * )
  * @UniqueEntity("email", message="Cette email existe déjà !")
  */
 class User implements UserInterface
@@ -32,7 +34,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource", "users_read"})
      * @Assert\NotBlank(message="l'email doit être renseignée")
      * @Assert\Email(message="l'email doit être renseignée")
      * 
@@ -41,7 +43,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="json")
-     * @Groups({"invoices_read", "customers_read" ,"invoices_subresource"})
+     * @Groups({"invoices_read", "customers_read" ,"invoices_subresource", "users_read"})
      */
     private $roles = [];
 
@@ -55,7 +57,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource", "users_read"})
      * @Assert\NotBlank(message="le mdp est obligatoire")
      * @Assert\Length(min=3 ,minMessage="votre pseudo doit comporter plus de caractere -min 3")
      */
@@ -63,7 +65,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource", "users_read"})
      * @Assert\NotBlank(message="le mdp est obligatoire")
      * @Assert\Length(min=3 ,minMessage="votre pseudo doit comporter plus de caractere -min 3")
      */
