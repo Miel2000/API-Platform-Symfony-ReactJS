@@ -15,7 +15,6 @@ class CustomeUserSubscriber implements EventSubscriberInterface
 
 {
     /**
-     * Undocumented variable
      *
      * @var Security
      */
